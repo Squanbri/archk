@@ -1,0 +1,181 @@
+title = "Вакансии"
+url = "/vakansii"
+layout = "default"
+description = "Страница \"Вакансии\""
+meta_title = "Вакансии"
+meta_description = "Найди лучшее предложение на нашем рынке"
+is_hidden = 0
+robot_index = "index"
+robot_follow = "follow"
+
+[Vacancies]
+
+[Companies]
+
+[Favourites]
+
+[Pagination]
+==
+<?php
+function onStart()
+{
+  $this['functions'] = new class {
+    public function getCompanyName($id) {
+      $name = Db::select('select name from squanbri_authentication_companies where id = ?', [$id])[0]->name;
+      return $name;
+    }
+    
+    public function getCompanyEmail($id) {
+      $email = Db::select('select email from squanbri_authentication_companies where id = ?', [$id])[0]->email;
+      return $email;
+    }
+    
+    public function getCompanyPhone($id) {
+      $phone = Db::select('select phone from squanbri_authentication_companies where id = ?', [$id])[0]->phone;
+      return $phone;
+    }
+    
+    public function getCompanyAddress($id) {
+      $address = Db::select('select address from squanbri_authentication_companies where id = ?', [$id])[0]->address;
+      return $address;
+    }
+    
+    public function getVacancyDateCreated($date) {
+      $date = explode(" ", $date);
+      $date= explode("-", $date[0]);
+      
+      if (isset($date[1])) {
+        switch ($date[1]){
+          case 1: $m='января'; break;
+          case 2: $m='февраля'; break;
+          case 3: $m='марта'; break;
+          case 4: $m='апреля'; break;
+          case 5: $m='мая'; break;
+          case 6: $m='июня'; break;
+          case 7: $m='июля'; break;
+          case 8: $m='августа'; break;
+          case 9: $m='сентября'; break;
+          case 10: $m='октября'; break;
+          case 11: $m='ноября'; break;
+          case 12: $m='декабря'; break;
+        }
+        return $date[2].' '.$m; 
+      }
+    }
+  };
+  
+}
+function onEnd() 
+{
+    $num2word = function ($num, $words){
+      $num = $num % 100;
+      if ($num > 19) {
+          $num = $num % 10;
+      }
+      switch ($num) {
+          case 1: {
+              return($words[0]);
+          }
+          case 2: case 3: case 4: {
+              return($words[1]);
+          }
+          default: {
+              return($words[2]);
+          }
+    }
+  };
+  
+  $num = $this->page->components['Vacancies']->countVacancies;
+  $word = $num2word($num, array('вакансия', 'вакансии', 'вакансий'));
+  
+  $this->layout->components['SeoCmsPage']->seo_title = 'Найдено ' . $this->page->components['Vacancies']->countVacancies . ' ' . $word;
+}
+?>
+==
+<link rel="stylesheet" href="{{ 'assets/css/vacansy.css'|theme }}">{% component 'Vacancies' %}
+<link rel="stylesheet" href="{{ 'assets/css/any-list.css'|theme}}">
+
+{% set vacancies = Vacancies.vacancies %}
+<div class="dark"></div>
+
+  {% partial 'lists/offer' %}
+
+<section class="search">
+  <div class="search__wrapper wrapper-lists">
+    <h2 class="seatch__platform-header">Платформа для поиска работы</h2>
+    <form class="search__input-group" data-request="Vacancies::onSearch">
+      <input type="text" placeholder="Вакансия" name="search" value="{{ Vacancies.search }}">
+      <button>Найти</button>
+    </form>
+    <p class="find-vacancies">Найдено {{Vacancies.countVacancies}} вакансии</p>
+    
+    <div class="filter-btn">&#9668; Фильтры</div>
+    {% partial 'lists/sort' %}
+    
+  </div>
+</section>
+
+<section class="list-filter">
+  <div class="wrapper-lists list-filter__wrapper">
+    
+    {% partial 'general/filter' %}
+    
+    <div class="list-block">
+      
+      <ul class="list-block__list">
+        
+        {% if vacancies %}
+          {% for vacancy in vacancies %}
+            <li class="list-block__item">
+               {% if Account.user %}
+                  {% if Favourites.existInFavourites(vacancy.id, 'вакансия') %}
+                    <button class="list-block__like_mobile" data-request="Favourites::onRemoveFavourite" data-request-data="type: 'вакансия', id: {{vacancy.id}}"><img src="{{ 'assets/icons/favorite.svg'|theme }}" alt=""></button>
+                  {% else %}
+                    <button class="list-block__like_mobile" data-request="Favourites::onAddFavourite" data-request-data="type: 'вакансия', id: {{vacancy.id}}"><img src="{{ 'assets/icons/favorite.svg'|theme }}" alt=""></button>
+                  {% endif %}
+                {% endif %}
+              <a href="{{'vakansiya'|page({id: vacancy.id})}}" class="list-block__link">
+                <span class="list-block__city">{{vacancy.city}}</span>
+                <span class="list-block__profession">{{vacancy.profession}}</span>
+                <span class="list-block__salary">{{vacancy.salary}}</span>
+                <span class="list-block__company">{{functions.getCompanyName(vacancy.companies_id)}}</span>
+                {{vacancy.description|raw}}
+              </a>
+              <div class="list-block__btns">
+                {% if Account.user %}
+                  <a class="list-block__respond btn-unfilled" href="{{ '/soobshcheniya' }}">Откликнуться</a>
+                {% endif %}
+                <div class="list-block__contacts" data-contacts-parent-id="{{ vacancy.id }}">
+                  <button class="list-block__contacts-btn" data-contacts-btn-id="{{ vacancy.id }}">Показать контакты</button>
+                  <ul class="list-block__contacts-block">
+                    <li>{{functions.getCompanyName(vacancy.companies_id)}}</li>
+                    <li><a href="mailto:{{functions.getCompanyEmail(vacancy.companies_id)}}">{{functions.getCompanyEmail(vacancy.companies_id)}}</a></li>
+                    <li><a href="tel:{{functions.getCompanyPhone(vacancy.companies_id)}}">{{functions.getCompanyPhone(vacancy.companies_id)}}</a></li>
+                    <li>{{functions.getCompanyAddress(vacancy.companies_id)}}</li>
+                  </ul>
+                </div>
+                {% if Account.user %}
+                  {% if Favourites.existInFavourites(vacancy.id, 'вакансия') %}
+                    <button class="list-block__like" data-request="Favourites::onRemoveFavourite" data-request-data="type: 'вакансия', id: {{vacancy.id}}">Убрать из избранного</button>
+                  {% else %}
+                    <button class="list-block__like" data-request="Favourites::onAddFavourite" data-request-data="type: 'вакансия', id: {{vacancy.id}}">В избранное</button>
+                  {% endif %}
+                {% endif %}
+                <span class="list-block__date">{{functions.getVacancyDateCreated(vacancy.updated_at)}}</span>
+              </div>
+            </li>
+          {% endfor %}
+        {% else %}
+          <span class="empty-list">Список пуст</span>
+        {% endif %}
+        
+        
+        
+      </ul>
+      
+      {% partial 'Vacancies::pagination' items=Vacancies.vacancies %}
+    </div>
+  </div>
+</section>
+<script src="{{ 'assets/js/any-list.js'|theme }}"></script>
+<script src="{{ 'assets/js/range-slider.js'|theme }}"></script>

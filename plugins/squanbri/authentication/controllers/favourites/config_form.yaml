@@ -1,0 +1,10 @@
+name: Favourites
+form: $/squanbri/authentication/models/favourites/fields.yaml
+modelClass: Squanbri\Authentication\Models\Favourites
+defaultRedirect: squanbri/authentication/favourites
+create:
+    redirect: 'squanbri/authentication/favourites/update/:id'
+    redirectClose: squanbri/authentication/favourites
+update:
+    redirect: squanbri/authentication/favourites
+    redirectClose: squanbri/authentication/favourites

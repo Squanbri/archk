@@ -1,0 +1,39 @@
+==
+<header>
+  <div class="wrapper header__wrapper">
+    <a href="{{ this.page.id == '/' ? '#' : '/' }}" class="header-logo">
+      <img src="{{ 'assets/icons/logo-white.svg'|theme }}" alt="Logo">
+    </a>
+    <nav class="header-nav">
+      <ul class="header-nav__list">
+        <li class="header-nav__item"><a href="{{ '/courses' }}">Обучение</a></li>
+        <li class="header-nav__item"><a href="{{ '/vakansii' }}">Вакансии</a></li>
+        <li class="header-nav__item"><a href="{{ '/rezyume' }}">Резюме</a></li>
+        <li class="header-nav__item"><a href="{{ '/o-nas' }}">О нас</a></li>
+      </ul>
+    </nav>
+    <div class="header-sign-in">
+      {% if Account.user %}
+          <div class="user-links">
+            <a href="{{ '/soobshcheniya' }}" class="user-links__item user-links__mess_active"><img src="{{ 'assets/icons/header-mess.svg'|theme }}" class="user-links__active-message" alt="Messages"></a>
+            <a href="{{ '/izbrannoe' }}" class="user-links__item"><img src="{{ 'assets/icons/like-white.svg'|theme }}" alt=""></a>
+            <div class="user-links__item user-links__dropdown">
+              <button type="button" class="user-links__dropdown-btn"><img src="{{ 'assets/icons/header-user.svg'|theme }}" alt="profile"></button>
+              <ul class="user-links__dropdown-list">
+                <li class="user-links__dropdown-item"><a href="{{ Account.type == 'user' ? 'polzovatel'|page({id: Account.user.id}) : 'kompaniya'|page({id: Account.user.id})}}"><b>{{ Account.user.name }}</b></a></li>
+                <li class="user-links__dropdown-item"><a href="{{ Account.type == 'user' ? '/redaktirovanie-resume' : '/sozdanie-vakansii' }}">{{ Account.type == 'user' ? 'Редактирование' : 'Создание вакансии' }}</a></li>
+                <li class="user-links__dropdown-item"><a href="https://archksakhalin.ru/" target="_blank">Перейти на АРЧК</a></li>
+                <hr>
+                <li class="user-links__dropdown-item"><a href="/nastrojki">Настройки</a></li>
+                <hr>
+                <li class="user-links__dropdown-item"><button data-request="onLogout">Выйти</button></li>
+              </ul>
+            </div>
+          </div>
+      {% else %}
+          <a href="{{ '/autentifikaciya' }}" class="btn btn-unfilled sign-in-button">Войти</a>
+      {% endif %}
+    </div>
+    <button class="burger-btn"><span class="burger-stick"></span></button>
+  </div>
+</header>

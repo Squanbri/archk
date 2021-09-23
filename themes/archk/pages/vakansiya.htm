@@ -1,0 +1,89 @@
+title = "Вакансия"
+url = "/vakansiya/:id"
+layout = "default"
+description = "Страница одной вакансии"
+meta_title = "Вакансия"
+is_hidden = 0
+robot_index = "index"
+robot_follow = "follow"
+
+[Vacancies]
+==
+<?php
+function onStart()
+{
+    $this['functions'] = new class {
+    public function getCompanyName($id) {
+      $name = Db::select('select name from squanbri_authentication_companies where id = ?', [$id])[0]->name;
+      return $name;
+    }
+    
+    public function getCompanyEmail($id) {
+      $email = Db::select('select email from squanbri_authentication_companies where id = ?', [$id])[0]->email;
+      return $email;
+    }
+    
+    public function getCompanyPhone($id) {
+      $phone = Db::select('select phone from squanbri_authentication_companies where id = ?', [$id])[0]->phone;
+      return $phone;
+    }
+    
+    public function getCompanyAddress($id) {
+      $address = Db::select('select address from squanbri_authentication_companies where id = ?', [$id])[0]->address;
+      return $address;
+    }
+  };
+}
+function onEnd() 
+{
+  $this->layout->components['SeoCmsPage']->seo_title = 'Вакансия - ' . $this->page->components['Vacancies']->vacancy['profession'];
+}
+?>
+==
+<link rel="stylesheet" href="{{ 'assets/css/vacansy.css'|theme}}">
+
+{% set vacancy = Vacancies.vacancy %}
+
+<section class="vacansy-page">
+  <div class="wrapper vacansy-page__wrapper">
+    <div class="vacansy-page__info">
+      <div class="profile__favorite">
+          {% if Favourites.existInFavourites(vacancy.id) %}
+            <img src="{{'./assets/icons/favorite.svg'|theme}}" alt="fav" class="favImg">
+            <button class="list-block__like" data-request="Favourites::onRemoveFavourite" data-request-data="type: 'вакансия', id: {{vacancy.id}}">Убрать из избранного</button>
+          {% else %}
+            <img src="{{'./assets/icons/favorite.svg'|theme}}" alt="fav" class="favImg">
+            <button class="list-block__like" data-request="Favourites::onAddFavourite" data-request-data="type: 'вакансия', id: {{vacancy.id}}">Добавить в избранное</button>
+          {% endif %}
+        </div>
+      <h1 class="vacansy-page__title">{{ vacancy.profession }}</h1>
+      <h2 class="vacansy-page__company"><a href="{{'kompaniya'|page({id: vacancy.companies_id}) }}">{{ vacancy.company }}</a></h2>
+      <span class="vacansy-page__salary">{{ vacancy.salary }} руб.</span>
+      <span class="vacansy-page__industrial">{{ vacancy.industry }}</span>
+      <ul class="vacansy-page__info-list">
+        <li>Город: {{ vacancy.city }}</li>
+        <li>График работы: {{ vacancy.schedule == 'Не указывать' ? 'Не указано' : vacancy.schedule }}</li>
+        <li>Образование: {{ vacancy.education == 'Не указывать' ? 'Не указано' : vacancy.education }}</li>
+        <li>Опыт работы: {{ vacancy.experience == 'Не указывать' ? 'Не указано' : vacancy.experience }}</li>
+      </ul>
+      <ul class="skills-list">
+        {% for skill in vacancy.skills %}
+          <li>{{skill}}</li>
+        {% endfor %}
+      </ul>
+    </div>
+    <div class="vacansy-page__btns">
+      {% if Account.user.id == vacancy.companies_id and Account.type == 'company' %}
+        <a href="{{ 'redaktirovanie-vakansii'|page({id: vacancy.id}) }}" class="btn-filled">Редактировать</a>
+      {% else %}
+        <a href="/soobshcheniya" class="btn-filled vacansy-page__respond">Откликнуться</a>
+      {% endif %}
+      <button class="btn-unfilled show-contacts" data-name="{{functions.getCompanyName(vacancy.companies_id)}}" data-phone="{{functions.getCompanyPhone(vacancy.companies_id)}}" data-mail="{{functions.getCompanyEmail(vacancy.companies_id)}}" data-city="{{functions.getCompanyAddress(vacancy.companies_id)}}">Показать контакты</button>
+      <section class="modal-contacts" id="modal"></section>
+    </div>
+    <div class="vacansy-page__description">
+      {{ vacancy.description|raw }}
+    </div>
+  </div>
+</section>
+<script src="{{ 'assets/js/modal.js'|theme }}"></script>

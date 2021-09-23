@@ -1,0 +1,31 @@
+==
+<div class="checkbox__item">
+  <input 
+    type="checkbox" 
+    name="schedule_full" 
+    id="filter-shedule-full" 
+    value="Полная занятость" 
+    {{ schedules['schedule_full'] ? 'checked' }}
+  >
+  <label for="filter-shedule-full">Полная занятость</label>
+</div>
+<div class="checkbox__item">
+  <input 
+    type="checkbox" 
+    name="schedule_part" 
+    id="filter-shedule-part" 
+    value="Частичная занятость"
+    {{ schedules['schedule_part'] ? 'checked' }}
+  >
+  <label for="filter-shedule-part">Частичная занятость</label>
+</div>
+<div class="checkbox__item">
+  <input 
+    type="checkbox" 
+    name="schedule_watchkeeper" 
+    id="filter-shedule-watchkeeping" 
+    value="Вахтовый метод"
+    {{ schedules['schedule_watchkeeper'] ? 'checked' }}
+  >
+  <label for="filter-shedule-watchkeeping">Вахтовый метод</label>
+</div>

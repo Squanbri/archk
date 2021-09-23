@@ -1,0 +1,135 @@
+title = "О нас"
+url = "/o-nas"
+layout = "default"
+description = "Страница \"О нас\""
+meta_title = "Информация"
+meta_description = "АРЧК — образовательная платформа и конструктор онлайн-курсов. Мы разрабатываем алгоритмы адаптивного обучения, сотрудничаем с авторами MOOC, помогаем в проведении олимпиад и программ переподготовки. Наша цель — сделать образование открытым и удобным."
+is_hidden = 0
+seo_keywords = "информация арчк, о нас арчк, арчк"
+robot_index = "index"
+robot_follow = "follow"
+
+[builderList vacansies]
+modelClass = "Squanbri\Authentication\Models\Vacancies"
+scope = "-"
+scopeValue = "{{ :scope }}"
+displayColumn = "description"
+noRecordsMessage = "No records found"
+detailsPage = "-"
+detailsUrlParameter = "id"
+pageNumber = "{{ :page }}"
+
+[builderList summaries]
+modelClass = "Squanbri\Authentication\Models\Summaries"
+scope = "-"
+scopeValue = "{{ :scope }}"
+displayColumn = "profession"
+noRecordsMessage = "No records found"
+detailsPage = "-"
+detailsUrlParameter = "id"
+pageNumber = "{{ :page }}"
+
+[builderList courses]
+modelClass = "Squanbri\Authentication\Models\Courses"
+scope = "-"
+scopeValue = "{{ :scope }}"
+displayColumn = "name"
+noRecordsMessage = "No records found"
+detailsPage = "-"
+detailsUrlParameter = "id"
+pageNumber = "{{ :page }}"
+
+[genericForm aboutForm]
+rules[name] = "required"
+rules[email] = "required"
+rules_messages[name.required] = "Имя"
+rules_messages[email.required] = "Почта"
+messages_success = "Форма была успешно отправлена!"
+messages_errors = "Необходимо указать следующую информацию:"
+mail_enabled = 1
+mail_subject = "Сообщение от АРЧК"
+inline_errors = "disabled"
+sanitize_data = "disabled"
+anonymize_ip = "disabled"
+recaptcha_theme = "light"
+recaptcha_type = "image"
+recaptcha_size = "normal"
+emails_date_format = "Y-m-d"
+==
+<link rel="stylesheet" href="{{ 'assets/css/about.css'|theme}}">
+
+<section class="about-company">
+  <div class="about-company__wrapper wrapper">
+    <h1 class="about-company__title">О нас</h1>
+    <p class="about-company__description">АРЧК — образовательная платформа и конструктор
+      онлайн-курсов. Мы разрабатываем алгоритмы адаптивного обучения, сотрудничаем с авторами MOOC, помогаем
+      в проведении олимпиад и программ переподготовки.
+      Наша цель — сделать образование открытым и удобным.</p>
+  </div>
+</section>  
+    
+    <section class="differences-cards">
+      <div class="differences-cards__wrapper wrapper">
+        <p class="differences-cards__description">Мы предлагаем вам лучший выбор. Настройте его в соответствии с потребностями ваших желаний и убедитесь, что вы проходите обучение у наших высококвалифицированных компаний.</p>
+        <ul class="differences-cards__list">
+
+          <li class="differences-cards__item">
+            <div class="differences-cards__img"><img src="{{'./assets/icons/people-search.svg'|theme}}" alt="people-search"></div>
+            <h4 class="differences-cards__title">Поиск людей</h4>
+            <p class="differences-cards__subtitle">Открой для себя новую ступень с 1 337 228 вакансиями от разных представителей</p>
+          </li>
+
+          <li class="differences-cards__item">
+            <div class="differences-cards__img"><img src="{{'./assets/icons/education.svg'|theme}}" alt="education"></div>
+            <h4 class="differences-cards__title">Обучение</h4>
+            <p class="differences-cards__subtitle">Поиск обучающих курсов в интернете по самым разным направлениям для Вас</span>
+          </li>
+
+          <li class="differences-cards__item">
+            <div class="differences-cards__img"><img src="{{'./assets/icons/employment.svg'|theme}}" alt="employment"></div>
+            <h4 class="differences-cards__title">Трудообеспечение</h4>
+            <p class="differences-cards__subtitle">Огромное количество трудовых кадров и компаний</span>
+          </li>
+
+          <li class="differences-cards__item">
+            <div class="differences-cards__img"><img src="{{'./assets/icons/rating.svg'|theme}}" alt="rating"></div>
+            <h4 class="differences-cards__title">Коммуникации</h4>
+            <p class="differences-cards__subtitle">Возможность связаться с интересующим специалистом или компанией</p>
+          </li>
+
+          <li class="differences-cards__item">
+            <div class="differences-cards__img"><img src="{{'./assets/icons/hiring.svg'|theme}}" alt="hiring"></div>
+            <h4 class="differences-cards__title">Найм специалистов</h4>
+            <p class="differences-cards__subtitle">Вы сможете нанять самых лучших людей в любой сфере  деятельности человека</p>
+          </li>
+
+          <li class="differences-cards__item">
+            <div class="differences-cards__img"><img src="{{'./assets/icons/actuality.svg'|theme}}" alt="actuality"></div>
+            <h4 class="differences-cards__title">Актуальность</h4>
+            <p class="differences-cards__subtitle">Предоставление возможности работы в самых передовых компаниях.</p>
+          </li>
+
+        </ul>
+      </div>
+    </section>
+
+    <section class="info-statistic">
+      <div class="wrapper info-statistic__wrapper">
+        <div class="info-statistic__block">
+          <div class="info-statistic__item">
+            <p>{{ vacansies.records|length }}</p>
+            <span>вакансий</span>
+          </div>
+          <div class="info-statistic__item">
+            <p>{{ summaries.records|length }}</p>
+            <span>соискателей</span>
+          </div>
+          <div class="info-statistic__item">
+            <p>{{ courses.records|length }}</p>
+            <span>программ обучения</span>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    {% component 'aboutForm' %}

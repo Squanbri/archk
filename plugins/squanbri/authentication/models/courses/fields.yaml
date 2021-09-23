@@ -1,0 +1,46 @@
+fields:
+    name:
+        label: 'Название курса'
+        span: auto
+        type: text
+    industry:
+        label: Направление
+        span: auto
+        type: text
+    profession:
+        label: Должность/Профессия
+        span: auto
+        type: text
+    hours:
+        label: 'Кол-во часов'
+        span: auto
+        type: text
+    education:
+        label: 'Уровень образования'
+        span: auto
+        type: text
+    cost:
+        label: 'Стоимость курса'
+        span: auto
+        type: text
+    skills:
+        label: Навыки
+        span: auto
+        type: text
+    link:
+        label: 'Ссылка на курс'
+        span: auto
+        type: text
+    certificate:
+        label: 'Документ об окончании'
+        span: auto
+        type: text
+    certificate_link:
+        label: 'Ссылка на пример документа'
+        span: auto
+        type: text
+    description:
+        label: 'Описание курса'
+        size: large
+        span: full
+        type: textarea

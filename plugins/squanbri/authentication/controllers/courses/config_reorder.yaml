@@ -1,0 +1,4 @@
+title: Courses
+modelClass: Squanbri\Authentication\Models\Courses
+toolbar:
+    buttons: reorder_toolbar

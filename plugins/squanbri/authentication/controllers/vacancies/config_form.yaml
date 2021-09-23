@@ -1,0 +1,10 @@
+name: Vacancies
+form: $/squanbri/authentication/models/vacancies/fields.yaml
+modelClass: Squanbri\Authentication\Models\Vacancies
+defaultRedirect: squanbri/authentication/vacancies
+create:
+    redirect: 'squanbri/authentication/vacancies/update/:id'
+    redirectClose: squanbri/authentication/vacancies
+update:
+    redirect: squanbri/authentication/vacancies
+    redirectClose: squanbri/authentication/vacancies

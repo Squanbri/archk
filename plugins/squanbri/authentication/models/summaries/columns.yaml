@@ -1,0 +1,23 @@
+columns:
+    id:
+        label: id
+        type: number
+        searchable: true
+        sortable: true
+    profession:
+        label: Профессия
+        type: text
+    city:
+        label: Город
+        type: text
+        searchable: true
+        sortable: true
+    skills:
+        label: Навыки
+        type: text
+    updated_at:
+        label: Обновление
+        type: date
+    created_at:
+        label: Создание
+        type: date

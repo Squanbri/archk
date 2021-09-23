@@ -1,0 +1,30 @@
+fields:
+    name:
+        label: ФИО
+        span: auto
+        type: text
+    phone:
+        label: Телефон
+        span: auto
+        type: text
+    birth_date:
+        label: 'Дата рождения'
+        mode: date
+        span: auto
+        type: datepicker
+    city:
+        label: Город
+        span: auto
+        type: text
+    sex:
+        label: Пол
+        span: auto
+        type: text
+    citizenship:
+        label: Гражданство
+        span: auto
+        type: text
+    activate:
+        label: IsActive
+        span: auto
+        type: number

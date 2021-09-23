@@ -1,0 +1,34 @@
+fields:
+    profession:
+        label: Профессия
+        span: auto
+        type: text
+    industry:
+        label: Направление
+        span: auto
+        type: text
+    salary:
+        label: Зарплата
+        span: auto
+        type: text
+    schedule:
+        label: 'График работы'
+        span: auto
+        type: text
+    skills:
+        label: Навыки
+        span: auto
+        type: text
+    education:
+        label: Образование
+        span: auto
+        type: text
+    experience:
+        label: Опыт
+        span: auto
+        type: text
+    description:
+        label: Описание
+        size: ''
+        span: auto
+        type: textarea

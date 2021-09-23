@@ -1,0 +1,4 @@
+title: Vacancies
+modelClass: Squanbri\Authentication\Models\Vacancies
+toolbar:
+    buttons: reorder_toolbar

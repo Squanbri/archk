@@ -1,0 +1,10 @@
+name: Users
+form: $/squanbri/authentication/models/users/fields.yaml
+modelClass: Squanbri\Authentication\Models\Users
+defaultRedirect: squanbri/authentication/users
+create:
+    redirect: 'squanbri/authentication/users/update/:id'
+    redirectClose: squanbri/authentication/users
+update:
+    redirect: squanbri/authentication/users
+    redirectClose: squanbri/authentication/users

@@ -1,0 +1,63 @@
+title = "Курс"
+url = "/course/:id"
+layout = "default"
+is_hidden = 0
+robot_index = "index"
+robot_follow = "follow"
+==
+<link rel="stylesheet" href="{{ 'assets/css/course.css'|theme}}">
+
+{% set course = Courses.course %}
+
+<section class="course">
+  <div class="course__wrapper wrapper-info">
+    <div class="course__info">
+      <h1 class="course__name">{{ course.name }}</h1>
+      <p class="course__description">{{ course.description }}</p>
+      <div class="course__time">
+        <img src="{{ 'assets/icons/course-clock.svg'|theme }}" alt="">
+        <span>{{ course.hours }} часа(ов)</span>
+      </div>
+      <a class="course__course-link btn-filled" href="{{ course.link }}">Перейти на курс</a>
+    </div>
+    <div class="course-info">
+      <h2 class="course-info__title">О Курсе</h2>
+      <ul class="course-info__list">
+        <li class="course-info__item">
+          <span>Направление:</span>
+          <p>{{ course.industry }}</p>
+        </li>
+        <li class="course-info__item">
+          <span>Курс рассчитан на:</span>
+          <p class="text-blue">{{ course.profession }}</p>
+        </li>
+        <li class="course-info__item">
+          <span>Входной уровень образования:</span>
+          <p>{{ course.education }}</p>
+        </li>
+        <li class="course-info__item">
+          <span>Документ по окончанию образования:</span>
+          {% if course.certificate_link %}
+          <a class="text-blue" href="https://{{ course.certificate_link }}">{{ course.certificate }}</a>
+          {% else %}
+          <p>{{ course.certificate }}</p>
+          {% endif %}
+        </li>
+        <li class="course-info__item">
+          <span>Цена обучения:</span>
+          <p>{{ course.cost }} руб.</p>
+        </li>
+      </ul>
+      <div class="course-info__skills">
+        <h2 class="course-info__title">Навыки</h2>
+        <ul class="skills-list">
+          {% for skill in course.skills %}
+          
+            <li>{{ skill }}</li>
+          
+          {% endfor %}
+        </ul>
+      </div>
+    </div>
+  </div>
+</section>

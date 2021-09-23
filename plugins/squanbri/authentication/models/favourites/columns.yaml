@@ -1,0 +1,13 @@
+columns:
+    id:
+        label: id
+        type: number
+    type:
+        label: Тип
+        type: text
+    target_id:
+        label: 'id цели'
+        type: number
+    email:
+        label: email
+        type: text

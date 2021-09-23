@@ -1,0 +1,18 @@
+[builderList]
+modelClass = "Squanbri\Authentication\Models\Vacancies"
+scope = "-"
+scopeValue = "{{ :scope }}"
+displayColumn = "profession"
+noRecordsMessage = "No records found"
+detailsPage = "-"
+detailsUrlParameter = "id"
+pageNumber = "{{ :page }}"
+==
+<section class="offer-preview">
+  <div class="offer-preview__wrapper">
+    <div class="offer-preview__content">
+      <h1>Найди лучшее предложение на рынке труда Сахалинской Области</h1>
+      <p>Открой для себя новую ступень в карьере с {{ builderList.records|length }} вакансиями на работу или сам найми необходимых специалистов.</p>
+    </div>
+  </div>
+</section>

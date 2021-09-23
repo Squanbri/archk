@@ -1,0 +1,210 @@
+title = "Курсы"
+url = "/courses"
+layout = "default"
+description = "Страница \"Курсы\""
+meta_title = "Образовательные курсы"
+meta_description = "Обучающие курсы по самым разным направлениям"
+is_hidden = 0
+seo_keywords = "курсы, обучающие курсы"
+robot_index = "index"
+robot_follow = "follow"
+
+[Courses]
+
+[Favourites]
+==
+<?php
+function onStart()
+{
+  $this['functions'] = new class {
+    public function splitSkills($skills) {
+      return explode(',', $skills);
+    }
+    
+    public function getUserName($id) {
+      $phone = Db::select('select name from squanbri_authentication_users where id = ?', [$id])[0]->name;
+      return $phone;
+    }
+    
+    public function getUserEmail($id) {
+      $email = Db::select('select email from squanbri_authentication_users where id = ?', [$id])[0]->email;
+      return $email;
+    }
+    
+    public function getUserPhone($id) {
+      $address = Db::select('select phone from squanbri_authentication_users where id = ?', [$id])[0]->phone;
+      return $address;
+    }
+    
+    public function getUserCity($id) {
+      $city = Db::select('select city from squanbri_authentication_users where id = ?', [$id])[0]->city;
+      return $city;
+    }
+    
+    public function getDateCreated($date) {
+      $date = explode(" ", $date);
+      $date= explode("-", $date[0]);
+      
+      if (isset($date[1])) {
+        switch ($date[1]){
+          case 1: $m='января'; break;
+          case 2: $m='февраля'; break;
+          case 3: $m='марта'; break;
+          case 4: $m='апреля'; break;
+          case 5: $m='мая'; break;
+          case 6: $m='июня'; break;
+          case 7: $m='июля'; break;
+          case 8: $m='августа'; break;
+          case 9: $m='сентября'; break;
+          case 10: $m='октября'; break;
+          case 11: $m='ноября'; break;
+          case 12: $m='декабря'; break;
+        }
+        return $date[2].' '.$m; 
+      }
+    }
+  };
+}
+?>
+==
+<link rel="stylesheet" href="{{ 'assets/css/any-list.css'|theme}}">
+  {% set courses = Courses.courses %}
+
+  {% partial 'lists/offer' %}
+<div class="dark"></div>
+<section class="search">
+  <div class="search__wrapper wrapper-lists">
+    <h2 class="seatch__platform-header">Платформа для поиска работы</h2>
+    <div class="search__input-group">
+      <input type="text" placeholder="Название курса">
+      <button>Найти</button>
+    </div>
+    <p>Найдено {{ courses|length }} курсов</p>
+    <div class="filter-btn">
+      <img src="{{ 'assets/icons/filter-arrow.svg'|theme }}" alt="">Фильтры
+    </div>
+    
+  </div>
+</section>
+
+<section class="list-filter">
+  <div class="wrapper-lists list-filter__wrapper">
+    <form class="filter-block">
+    <img src="{{ 'assets/icons/modal-close.svg'|theme }}" class="filter-block__close" alt="">
+      <div class="filter-block__item">
+        <span>Образование</span>
+        <select class="select__item">
+          <option value="Не указывать">Не указывать</option>
+          <option value="Неполное среднее">Неполное среднее</option>
+          <option value="Среднее">Среднее</option>
+          <option value="Среднее профессиональное">Среднее профессиональное</option>
+          <option value="Неоконченное высшее">Неоконченное высшее</option>
+          <option value="Высшее">Высшее</option>
+        </select>
+      </div>
+      <div class="filter-block__item">
+        <span>Возраст</span>
+        <div class="radio__list">
+          <div class="radio__item">
+            <input type="radio" name="age" id="filter-age-any" value="Не имеет значения" checked>
+            <label for="filter-age-any">Не имеет значения</label>
+          </div>
+          <div class="radio__item">
+            <input type="radio" name="age" id="filter-age-own" value="Свой диапазон">
+            <label for="filter-age-own">Свой диапазон</label>
+          </div>
+          <div class="range__item" id="age-range-item">
+            <input type="text" class="course-input-from" value="{{min_age}}" placeholder="от" name="min_age" />
+            <input type="text" class="course-input-to" value="{{max_age }}" placeholder="до" name="max_age" />
+          </div>
+          <div class="range-slider" id="age-range">
+            <input type="text" class="course-range-slider" value=""/>
+          </div>
+        </div>
+      </div>
+      <div class="filter-block__item">
+        <span>Продолжительность</span>
+        <div class="radio__list">
+          <div class="radio__item">
+            <input type="radio" name="duration" id="filter-duration-any" value="Не имеет значекния" checked>
+            <label for="filter-duration-any">Не имеет значения</label>
+          </div>
+          <div class="radio__item">
+            <input type="radio" name="duration" id="filter-duration-own" value="Свой диапазон">
+            <label for="filter-duration-own">Свой диапазон</label>
+          </div>
+          <div class="range__item" id="duration-range-item">
+            <input type="text" class="course-input-from" value="{{min_duration}}" placeholder="от" name="min_duration" />
+            <input type="text" class="course-input-to" value="{{max_duration}}" placeholder="до" name="max_duration" />
+          </div>
+          <div class="range-slider" id="duration-range">
+            <input type="text" class="course-range-slider"value="" />
+          </div>
+        </div>
+      </div>
+      <div class="filter-block__item">
+        <span>Документ об окончании</span>
+        <div class="radio__list">
+          <div class="radio__item">
+            <input type="radio" name="certificate" id="filter-document-any" value="Не имеет значения" checked>
+            <label for="filter-document-any">Не имеет значения</label>
+          </div>
+          <div class="radio__item">
+            <input type="radio" name="certificate" id="filter-document-yes" value="Да">
+            <label for="filter-document-yes">Да</label>
+          </div>
+        </div>
+      </div>
+    </form>
+    
+    <div class="list-block">
+      <ul class="list-block__list">
+        
+        {% for course in courses %}
+      
+        <li class="list-block__item">
+          <a href="/course/{{ course.id }}" class="list-block__link">
+            <span class="list-block__time">{{ course.hours }} часов</span>
+            <span class="list-block__profession">{{ course.name }}</span>
+            <span class="list-block__salary">{{ course.cost }} руб.</span>
+            <span class="list-block__company">{{ course.industry }}</span>
+            <div class="list-block__skills">
+              <ul class="list-block__skills-list skills-list">
+                {% for skill in course.skills %}
+                  <li>{{ skill }}</li>
+                {% endfor %}
+              </ul>
+            </div>
+          </a>
+          <div class="list-block__btns">
+            {% if Account.user %}
+              {% if Favourites.existInFavourites(course.id, 'курс') %}
+                <button 
+                  class="list-block__like" 
+                  data-request="Favourites::onRemoveFavourite" 
+                  data-request-data="type: 'курс', id: {{course.id}}"
+                >Убрать из избранного</button>
+              {% else %}
+                <button 
+                  class="list-block__like" 
+                  data-request="Favourites::onAddFavourite" 
+                  data-request-data="type: 'курс', id: {{course.id}}"
+                >В избранное</button>
+              {% endif %}
+            {% endif %}
+            <span class="list-block__date">{{ functions.getDateCreated(course.created_at) }}</span>
+          </div>
+        </li>
+        
+        {% endfor %}
+        
+      </ul>
+      
+      {% partial 'general/pagination' %}
+      
+    </div>
+  </div>
+</section>
+
+<script src="{{ 'assets/js/range-slider.js'|theme }}"></script>
+<script src="{{ 'assets/js/any-list.js'|theme }}"></script>

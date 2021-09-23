@@ -1,0 +1,200 @@
+title = "Избранное"
+url = "/izbrannoe"
+layout = "default"
+description = "Страница \"Избранное\""
+meta_title = "Избранное"
+meta_description = "Избранные вакансии и резюме"
+is_hidden = 0
+robot_index = "index"
+robot_follow = "follow"
+
+[Favourites]
+==
+<?php
+function onStart()
+{
+  $this['vacancyFunctions'] = new class {
+    
+    public function getVacancyId($id) {
+      $id = Db::select('select id from squanbri_authentication_vacancies where id = ?', [$id])[0]->id;
+      return $id;
+    }
+    
+    public function getVacancyCity($id) {
+      $city = Db::select('select city from squanbri_authentication_vacancies where id = ?', [$id])[0]->city;
+      return $city;
+    }
+    
+    public function getVacancyProfession($id) {
+      $profession = Db::select('select profession from squanbri_authentication_vacancies where id = ?', [$id])[0]->profession;
+      return $profession;
+    }
+    
+    public function getVacancySalary($id) {
+      $salary = Db::select('select salary from squanbri_authentication_vacancies where id = ?', [$id])[0]->salary;
+      return $salary;
+    }
+    
+    public function getCompanyName($id) {
+      $company_id = Db::select('select companies_id from squanbri_authentication_vacancies where id = ?', [$id])[0]->companies_id;
+      $company_name = Db::select('select name from squanbri_authentication_companies where id = ?', [$company_id])[0]->name;
+      return $company_name;
+    }
+    
+    public function getVacancyDescription($id) {
+      $description = Db::select('select description from squanbri_authentication_vacancies where id = ?', [$id])[0]->description;
+      return $description;
+    }
+  };
+  
+  
+  $this['resumeFunctions'] = new class {
+    
+    public function getResumeId($id) {
+      $id = Db::select('select id from squanbri_authentication_summaries where id = ?', [$id])[0]->id;
+      return $id;
+    }
+    
+    public function getResumeCity($id) {
+      $city = Db::select('select city from squanbri_authentication_users where id = ?', [$id])[0]->city;
+      return $city;
+    }
+    
+    public function getResumeProfession($id) {
+      $profession = Db::select('select profession from squanbri_authentication_summaries where id = ?', [$id])[0]->profession;
+      return $profession;
+    }
+    
+    public function getResumeSalary($id) {
+      $salary = Db::select('select salary from squanbri_authentication_summaries where id = ?', [$id])[0]->salary;
+      return $salary;
+    }
+    
+    public function getResumeExperience($id) {
+      $experience = Db::select('select experience from squanbri_authentication_summaries where id = ?', [$id])[0]->experience;
+      return $experience;
+    }
+    
+    public function getResumeAbout($id) {
+      $about = Db::select('select about from squanbri_authentication_summaries where id = ?', [$id])[0]->about;
+      return $about;
+    }
+  };
+  
+  
+  $this['courseFunctions'] = new class {
+
+    public function getCourseHours($id) {
+      $hours = Db::select('select hours from squanbri_authentication_courses where id = ?', [$id])[0]->hours;
+      return $hours;
+    }
+    
+    public function getCourseName($id) {
+      $name = Db::select('select name from squanbri_authentication_courses where id = ?', [$id])[0]->name;
+      return $name;
+    }
+    
+    public function getCourseCost($id) {
+      $cost = Db::select('select cost from squanbri_authentication_courses where id = ?', [$id])[0]->cost;
+      return $cost;
+    }
+    
+    public function getCourseIndustry($id) {
+      $industry = Db::select('select industry from squanbri_authentication_courses where id = ?', [$id])[0]->industry;
+      return $industry;
+    }
+    
+    public function getCourseDescription($id) {
+      $description = Db::select('select description from squanbri_authentication_courses where id = ?', [$id])[0]->description;
+      return $description;
+    }
+  };
+}
+
+//{% set vacancy = functions.getVacancy(favourite) %}
+//{{ vacancy }}
+?>
+==
+<link rel="stylesheet" href="{{ 'assets/css/liked.css'|theme}}">
+<link rel="stylesheet" href="{{ 'assets/css/any-list.css'|theme}}">
+
+{% set favourites = Favourites.favourites %}
+
+<section class="liked-vacansies">
+  <h1>Избранные вакансии</h1>
+  <div class="list-block liked-vacansies__wrapper">
+    
+    {% if Favourites.vacancies %}
+      <ul class="list-block__list">
+        {% for favourite in favourites if favourite.type == 'вакансия' %}
+          <li class="list-block__item list-block__vacancy">
+            <a href="{{ 'vakansiya'|page({id: favourite.target_id}) }}" class="list-block__link">
+              <span class="list-block__city">{{ vacancyFunctions.getVacancyCity(favourite.target_id) }}</span>
+              <span class="list-block__profession">{{ vacancyFunctions.getVacancyProfession(favourite.target_id) }}</span>
+              <span class="list-block__salary">{{ vacancyFunctions.getVacancySalary(favourite.target_id) }}</span>
+              <span class="list-block__company">{{ vacancyFunctions.getCompanyName(favourite.target_id) }}</span>
+              <p class="list-block__description">{{ vacancyFunctions.getVacancyDescription(favourite.target_id)|raw }}</p>
+            </a>
+            <div class="list-block__btns">
+              <a class="list-block__respond btn-unfilled" href="{{ '/soobshcheniya' }}">Откликнуться</a>
+              <button class="list-block__like delBtn-liked" data-request="Favourites::onRemoveFavourite" data-request-data="type: 'вакансия', id: {{favourite.target_id}}">Убрать из избранного</button>
+            </div>
+          </li>
+        {% endfor %}
+      </ul>
+    {% else %}
+      <span class="empty-list">Список пуст</span>
+    {% endif %}
+  </div>
+  
+  <h1>Избранные резюме</h1>
+  <div class="list-block liked-vacansies__wrapper">
+    {% if Favourites.resume %}
+      <ul class="list-block__list">
+        {% for favourite in favourites if favourite.type == 'резюме' %}
+          <li class="list-block__item list-block__resum">
+            <a href="{{ 'polzovatel'|page({id: favourite.target_id}) }}" class="list-block__link">
+              <span class="list-block__city">{{ resumeFunctions.getResumeCity(favourite.target_id) }}</span>
+              <span class="list-block__profession">{{ resumeFunctions.getResumeProfession(favourite.target_id) }}</span>
+              <span class="list-block__salary">{{ resumeFunctions.getResumeSalary(favourite.target_id) }}</span>
+              <span class="list-block__company">{{ resumeFunctions.getResumeExperience(favourite.target_id) }}</span>
+              <p class="list-block__description">{{ resumeFunctions.getResumeAbout(favourite.target_id)|raw }}</p>
+            </a>
+            <div class="list-block__btns">
+              <a class="list-block__respond btn-unfilled" href="{{ '/soobshcheniya' }}">Откликнуться</a>
+              <button class="list-block__like delBtn-liked" data-request="Favourites::onRemoveFavourite" data-request-data="type: 'резюме', id: {{favourite.target_id}}">Убрать из избранного</button>
+            </div>
+          </li>
+        {% endfor %}
+      </ul>
+    {% else %}
+      <span class="empty-list">Список пуст</span>
+    {% endif %}
+  </div>
+  
+  <h1>Избранные курсы</h1>
+  <div class="list-block liked-vacansies__wrapper">
+    {% if Favourites.courses %}
+      <ul class="list-block__list">
+        {% for favourite in favourites if favourite.type == 'курс' %}
+          <li class="list-block__item list-block__course">
+            <a href="{{ 'kurs'|page({id: favourite.target_id}) }}" class="list-block__link">
+              <span class="list-block__city">{{ courseFunctions.getCourseHours(favourite.target_id) }}</span>
+              <span class="list-block__profession">{{ courseFunctions.getCourseName(favourite.target_id) }}</span>
+              <span class="list-block__salary">{{ courseFunctions.getCourseCost(favourite.target_id) }}</span>
+              <span class="list-block__company">{{ courseFunctions.getCourseIndustry(favourite.target_id) }}</span>
+              <p class="list-block__description">{{ courseFunctions.getCourseDescription(favourite.target_id)|raw }}</p>
+            </a>
+            <div class="list-block__btns">
+              <a class="list-block__respond btn-unfilled" href="{{ 'kurs'|page({id: favourite.target_id}) }}">Перейти</a>
+              <button class="list-block__like delBtn-liked" data-request="Favourites::onRemoveFavourite" data-request-data="type: 'курс', id: {{favourite.target_id}}">Убрать из избранного</button>
+            </div>
+          </li>
+        {% endfor %}
+      </ul>
+    {% else %}
+      <span class="empty-list">Список пуст</span>
+    {% endif %}
+  </div>
+  
+</section>

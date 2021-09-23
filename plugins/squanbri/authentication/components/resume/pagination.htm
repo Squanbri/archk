@@ -1,0 +1,32 @@
+{% set page = __SELF__.currentPage %}
+{% set allPage = __SELF__.allPage %}  
+
+{% if allPage > 1 %}
+  <ul class="pagination">
+    {% if page - 1 >= 0 %}
+      <a href="{{ __SELF__.setUrl(page) }}" rel="prev" class="pagination__prev pagination__item">Назад</a>
+    {% else %}
+      <span disabled class="pagination__prev pagination__item pagination_disabled">Назад</span>
+    {% endif %}
+
+    {% for pageIndex in range(page - 2, page + 2) %}
+      {% if pageIndex >= 0 and pageIndex < allPage %}
+        {% if pageIndex == page %}
+          <li>
+            <a href="#" class="pagination__item_active pagination__item">{{ pageIndex + 1 }}</a>
+          </li>
+        {% else %}
+          <li>
+            <a href="{{ __SELF__.setUrl(pageIndex+1) }}" class=" pagination__item">{{ pageIndex + 1 }}</a>
+          </li>
+        {% endif %}
+      {% endif %}
+    {% endfor %}
+
+    {% if page + 1 < allPage %}
+      <a href="{{ __SELF__.setUrl(page + 2) }}" rel="next" class="pagination__next pagination__item">Дальше</a>
+    {% else %}
+      <span disabled class="pagination__next pagination__item pagination_disabled">Дальше</span>
+    {% endif %}
+  </ul>
+{% endif %}

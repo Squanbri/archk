@@ -1,0 +1,107 @@
+title = "Главная"
+url = "/"
+layout = "default"
+description = "Страница \"Главная\""
+meta_title = "Агенство по развитию человеческого капитала Сахалинской области"
+meta_description = "Платформа для поиска вакансий, соискателей и учебных курсов"
+is_hidden = 0
+robot_index = "index"
+robot_follow = "follow"
+
+[Vacancies]
+==
+<link rel="stylesheet" href="{{ 'assets/css/index.css'|theme}}">
+
+<section class="search-platform">
+  <div class="wrapper search-platform__wrapper">
+    <div class="search-platform__content">
+      <h1>Платформа для поиска работы</h1>
+      <form class="search-platform__form" data-request="Vacancies::onSearch">
+        <input placeholder="Профессия, должность или компания" type="text" name="search" class="search-platform__input">
+        <div class="search-platform__settings-btn">
+          <button type="button" class="search-platform__settings"><img src="{{ 'assets/icons/main-salary-settings.svg'|theme }}" alt="ЗП"></button>
+          <div class="search-platform__settings-block">
+            <span>Уровень дохода</span>
+            <div class="radio__list ">
+              <div class="radio__item">
+                <input type="radio" name="salary" id="filter-salary-doesnt-matter" value="Не имеет значения" checked>
+                <label for="filter-salary-doesnt-matter">Не имеет значения</label>
+              </div>
+              <div class="radio__item">
+                <input type="radio" name="salary" id="filter-salary-own" value="Свой диапазон">
+                <label for="filter-salary-own">Своя зарплата</label>
+              </div>
+              <div class="range__item">
+                <input type="text" class="js-input-from" value="{{min_salary}}" placeholder="от" name="min_salary" />
+                <input type="text" class="js-input-to" value="{{max_salary }}" placeholder="до" name="max_salary" />
+              </div>
+              <div class="range-slider">
+                <input type="text" class="js-range-slider" value="" />
+              </div>
+              {% partial 'general/range-slider.htm' %}
+            </div>
+          </div>
+          <div class="modal-contacts">
+            <div class="modal-salary__wrapper">
+              <span>Уровень дохода</span>
+              <div class="radio__list ">
+                <div class="radio__item">
+                  <input type="radio" name="salary" id="filter-salary-doesnt-matter" value="Не имеет значения" checked>
+                  <label for="filter-salary-doesnt-matter">Не имеет значения</label>
+                </div>
+                <div class="radio__item">
+                  <input type="radio" name="salary" id="filter-salary-own" value="Свой диапазон">
+                  <label for="filter-salary-own">Своя зарплата</label>
+                </div>
+                {% partial 'general/range-slider.htm' %}
+              </div>
+            </div>
+          </div>
+        </div>
+        <button class="btn btn-filled search-platform__btn">Найти работу</button>
+      </form>
+      <a href="{{ '/rezyume' }}" class="search-platform__link">Я ищу сотрудника</a>
+    </div>
+  </div>
+</section>
+
+<section class="block-vacansies">
+  <div class="wrapper block-vacansies__wrapper">
+    <ul class="block-vacansies__list">
+      {% for i in range(0, 3) %}
+        {% if Vacancies.industries[i] %}
+          <li class="block-vacansies__item">
+          <a href="{{ '/vakansii?industry='}}{{Vacancies.industries[i]['industry']}}">
+            <div class="block-vacansies__info">
+              <h4 class="block-vacansies__title">{{ Vacancies.industries[i]['industry'] }}</h4>
+              <span class="block-vacansies__num">{{ Vacancies.industries[i]['count'] }} вакансий</span>
+            </div>
+          </a>
+        {% endif %}
+        </li>
+      {% endfor %}
+    </ul>
+  </div>
+</section>
+
+<section class="day-vacansies">
+  <div class="wrapper day-vacansies__wrapper">
+    <h2 class="day-vacansies__title">Новые вакансии</h2>
+    <ul class="day-vacansies__list">
+      {% for i in range(0, 3) %} 
+        <li class="day-vacansies__item">
+          <a href="{{'vakansiya'|page({id: Vacancies.vacancies[i].id})}}">
+            <h5 class="day-vacansies__name">{{ Vacancies.vacancies[i].profession }}</h5>
+            <p class="day-vacansies__salary">{{ Vacancies.vacancies[i].salary }} руб.</p>
+            <span class="day-vacansies__city">{{ Vacancies.vacancies[i].city }}</span>
+          </a>
+        </li>
+      {% endfor %}
+    </ul>
+    <div class="day-vacansies__more"><a href="{{ '/vakansii' }}">Еще вакансии</a></div>
+  </div>
+</section>
+
+<script src="{{ 'assets/js/modal.js'|theme }}"></script>
+<script src="{{ 'assets/js/index.js'|theme }}"></script>
+<script src="{{ 'assets/js/range-slider.js'|theme }}"></script>

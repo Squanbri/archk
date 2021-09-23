@@ -1,0 +1,103 @@
+title = "Компания"
+url = "/kompaniya/:id"
+layout = "default"
+description = "Страница \"Профиль компании\""
+is_hidden = 0
+robot_index = "index"
+robot_follow = "follow"
+
+[Vacancies]
+
+[Companies]
+
+[Account]
+==
+<?php
+function onStart()
+{
+  
+  $this['functions'] = new class {
+    public function getCompanyName($id) {
+      $name = Db::select('select name from squanbri_authentication_companies where id = ?', [$id])[0]->name;
+      return $name;
+    }
+    
+    public function getCompanyEmail($id) {
+      $email = Db::select('select email from squanbri_authentication_companies where id = ?', [$id])[0]->email;
+      return $email;
+    }
+    
+    public function getCompanyPhone($id) {
+      $phone = Db::select('select phone from squanbri_authentication_companies where id = ?', [$id])[0]->phone;
+      return $phone;
+    }
+    
+    public function getCompanyAddress($id) {
+      $address = Db::select('select address from squanbri_authentication_companies where id = ?', [$id])[0]->address;
+      return $address;
+    }
+  };
+
+}
+function onEnd() 
+{
+  $this->layout->components['SeoCmsPage']->seo_title = $this->page->components['Companies']->getCompanyName($this->company['id']);
+}
+?>
+==
+<link rel="stylesheet" href="{{ 'assets/css/company.css'|theme }}">
+<link rel="stylesheet" href="{{ 'assets/css/any-profile.css'|theme}}">
+<section class="profile">
+  <div class="profile__wrapper wrapper">
+    <div class="profile__info">
+      <div class="profile__description">
+        <h1 class="profile__name">{{ company.name }}</h1>
+        <span class="profite-info__sphere-activity">{{ company.industry }}</span>
+        <span class="profile__address">{{ company.address }}</span>
+      </div>
+      <div class="profile__img">
+        
+        <img src="{{ company.image.path ? company.image.path : 'assets/images/default-ava.png'|theme }}" alt="ava">
+      </div>
+    </div>
+    <div class="profile__btns">
+      {% if Account.user.id == company.id and Account.type == 'company' %}
+        <a href="{{ '/nastrojki' }}">Редактировать</a>
+      {% else %}
+        <a href="{{ '/soobshcheniya' }}">Связаться</a>
+        <button class="btn-unfilled show-contacts" data-name="{{functions.getCompanyName(company.id)}}" data-phone="{{functions.getCompanyPhone(company.id)}}" data-mail="{{functions.getCompanyEmail(company.id)}}" data-city="{{functions.getCompanyAddress(company.id)}}">Показать контакты</button>
+      <section class="modal-contacts" id="modal"></section>
+      {% endif %}
+    </div>
+  </div>
+</section>
+
+<section class="profile-description">
+  <div class="profile-description__wrapper wrapper-info">
+    <h2>О компании</h2>
+    <p>
+      {{ company.description|raw }}
+    </p>
+  </div>
+</section>
+
+<section class="company-vacansies">
+  <div class="company-vacansies__wrapper wrapper">
+    <h3 class="company-vacansies__title">Вакансии компании: {{ Vacancies.vacancies|length }}</h3>
+    <ul class="company-vacansies__list">
+      
+      {% for vacancy in Vacancies.vacancies %}
+      <li class="company-vacansies__item">
+        <a href="{{'vakansiya'|page({id: vacancy.id}) }}">
+          <span class="company-vacansies__city">{{ vacancy.city }}</span>
+          <h4 class="company-vacansies__profession">{{ vacancy.profession }}</h4>
+          <span>{{ vacancy.industrial }}</span>
+          <span class="company-vacansies__salary">{{ vacancy.salary }} Руб.</span>
+          {{ vacancy.description|raw }}
+        </a>
+      </li>
+      {% endfor %}
+    </ul>
+  </div>
+</section>
+<script src="{{ 'assets/js/modal.js'|theme }}"></script>

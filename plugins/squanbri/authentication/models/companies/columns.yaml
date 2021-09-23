@@ -1,0 +1,13 @@
+columns:
+    id:
+        label: id
+        type: number
+        searchable: true
+        sortable: true
+    email:
+        label: email
+        type: text
+        searchable: true
+    password:
+        label: Пароль
+        type: text

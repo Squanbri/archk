@@ -1,0 +1,25 @@
+columns:
+    id:
+        label: id
+        type: number
+        searchable: true
+        sortable: true
+    profession:
+        label: Должность
+        type: text
+        searchable: true
+    cost:
+        label: Стоимость
+        type: number
+        searchable: false
+        sortable: true
+    hours:
+        label: Часы
+        type: number
+        searchable: true
+        sortable: true
+    industry:
+        label: Направление
+        type: text
+        searchable: true
+        sortable: true

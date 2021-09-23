@@ -1,0 +1,101 @@
+<section class="enter-form">
+  <div class="wrapper enter-form__wrapper">
+    <form data-request="Account::onRegistration" data-request-validate class="enter-form__form">
+      
+      <div class="enter-form__container">
+        <div class="enter-form__form_first">
+          <h1 class="enter-form__title">Регистрация</h1>
+          <ul class="enter-form__list">
+            <li class="enter-form__item">
+              <input type="text" name="email" id="email" placeholder="Email">
+              <span data-validate-for="email"></span>
+            </li>
+            <li class="enter-form__item">
+              <input type="password" name="password" id="password" placeholder="Пароль">
+              <span data-validate-for="password"></span>
+            </li>
+            <li class="enter-form__item">
+              <input type="password" name="password_confirmation" id="password_confirmation" placeholder="Повторите пароль">
+              <span data-validate-for="password_confirmation"></span>
+            </li>
+          </ul>
+
+          <div class="radio__list">
+            <div class="radio__item">
+              <input type="radio" name="type_user" id="user-reg" value="user" checked>
+              <label for="user-reg">Соискатель</label>
+            </div>
+            <div class="radio__item">
+              <input type="radio" name="type_user" id="company" value="company">
+              <label for="company">Работодатель</label>
+            </div>
+          </div>
+          
+          <div class="enter-form__btns">
+            <span class="enter-form__next-btn btn-filled">Продолжить</span>
+            <a href="./autentifikaciya">Уже есть аккаунт?</a>
+          </div>
+        </div>
+      </div>
+
+      <div class="enter-form__container">
+        <div class="edit-page__wrapper edit-page__wrapper-2" id="reg-second-section">
+          <div class="enter-form_top">
+            <h2>Основная информация</h2>
+            <span class="enter-form__return-btn">Вернуться</span>
+          </div>
+          <div class="edit-page__item-row">
+            <p>ФИО</p>
+            <input type="text" name="name">
+            <span data-validate-for="name"></span>
+          </div> 
+          <div class="edit-page__radio-row">
+            <p>Пол</p>
+            <div class="radio__list">
+              <div class="radio__item">
+                <input type="radio" name="sex" id="male" value="Мужской" checked>
+                <label for="male">Мужской</label>
+              </div>
+              <div class="radio__item">
+                <input type="radio" name="sex" id="female" value="Женский">
+                <label for="female">Женский</label>
+              </div>
+            </div>
+          </div> 
+          <div class="edit-page__item-row">
+            <p>Дата рождения</p>
+            <input type="date" name="birth_date">
+            <span data-validate-for="birth_date"></span>
+          </div>
+          <div class="edit-page__item-row">
+            <p>Город</p>
+            <select name="city">
+              <option value="Южно-Сахалинск">Южно-Сахалинск</option>
+              <option value="Корсаков">Корсаков</option>
+              <option value="Холмск">Холмск</option>
+              <option value="Оха">Оха</option>
+              <option value="Поронайск">Поронайск</option>
+              <option value="Долинск">Долинск</option>
+              <option value="Ноглики">Ноглики</option>
+              <option value="Александровск-Сахалинский">Александровск-Сахалинский</option>
+              <option value="Невельск">Невельск</option>
+              <option value="Углегорск">Углегорск</option>
+              <option value="Анива">Анива</option>
+              <option value="Тымовское">Тымовское</option>
+              <option value="Смирных">Смирных</option>
+              <option value="Южно-Курильск">Южно-Курильск</option>
+              <option value="Шахтерск">Шахтерск</option>
+              <option value="Макаров">Макаров</option>
+              <option value="Томари">Томари</option>
+              <option value="Северо-Курильск">Северо-Курильск</option>
+              <option value="Курильск">Курильск</option>
+            </select>
+          </div>
+          <div class="enter-form__btns">
+            <button type="submit" class="btn-filled">Зарегистрироваться</button>
+          </div>
+        </div>
+      </div>
+    </form>
+  </div>
+</section>

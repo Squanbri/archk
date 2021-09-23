@@ -1,0 +1,105 @@
+title = "Редактирование курса"
+url = "/redaktirovanie-kursa"
+layout = "default"
+description = "Страница \"Редактирование курса\""
+is_hidden = 0
+==
+<link rel="stylesheet" href="{{ 'assets/css/edit.css'|theme }}">
+
+<section class="edit-page">
+  <h1>Редактирование</h1>
+  <div class="edit-page__wrapper">
+    <form class="edit-page__form" data-request="" data-request-validate data-request-redirect="/kurs/{{ __SELF__.course.id }}">
+      <div class="edit-page__item-row">
+        <p>Направление</p>
+        <select name="industry" id="industry">
+          <option value="Автосервис, автотовары" {{ __SELF__.course.industry == "Автосервис, автотовары" ? 'selected' }}>Автосервис, автотовары</option>
+          <option value="Бытовое обслуживание" {{ __SELF__.course.industry == "Бытовое обслуживание" ? 'selected' }}>Бытовое обслуживание</option>
+          <option value="Государство" {{ __SELF__.course.industry == "Государство" ? 'selected' }}>Государство</option>
+          <option value="Для дома и офиса" {{ __SELF__.course.industry == "Для дома и офиса" ? 'selected' }}>Для дома и офиса</option>
+          <option value="Животные, питомцы" {{ __SELF__.course.industry == "Животные, питомцы" ? 'selected' }}>Животные, питомцы</option>
+          <option value="Компьютеры, интернет" {{ __SELF__.course.industry == "Компьютеры, интернет" ? 'selected' }}>Компьютеры, интернет</option>
+          <option value="Красота, здоровье" {{ __SELF__.course.industry == "Красота, здоровье" ? 'selected' }}>Красота, здоровье</option>
+          <option value="Культура, искусство" {{ __SELF__.course.industry == "Культура, искусство" ? 'selected' }}>Культура, искусство</option>
+          <option value="Мебель" {{ __SELF__.course.industry == "Мебель" ? 'selected' }}>Мебель</option>
+          <option value="Медицина" {{ __SELF__.course.industry == "Медицина" ? 'selected' }}>Медицина</option>
+          <option value="Наука, образование, работа" {{ __SELF__.course.industry == "Наука, образование, работа" ? 'selected' }}>Наука, образование, работа</option>
+          <option value="Недвижимость" {{ __SELF__.course.industry == "Недвижимость" ? 'selected' }}>Недвижимость</option>
+          <option value="Нефть, газ" {{ __SELF__.course.industry == "Нефть, газ" ? 'selected' }}>Нефть, газ</option>
+          <option value="Общество" {{ __SELF__.course.industry == "Общество" ? 'selected' }}>Общество</option>
+          <option value="Одежда, обувь, аксессуары" {{ __SELF__.course.industry == "Одежда, обувь, аксессуары" ? 'selected' }}>Одежда, обувь, аксессуары</option>
+          <option value="Отдых, развлечения, кафе" {{ __SELF__.course.industry == "Отдых, развлечения, кафе" ? 'selected' }}>Отдых, развлечения, кафе</option>
+          <option value="Право" {{ __SELF__.course.industry == "Право" ? 'selected' }}>Право</option>
+          <option value="Продукты питания" {{ __SELF__.course.industry == "Продукты питания" ? 'selected' }}>Продукты питания</option>
+          <option value="Промышленность" {{ __SELF__.course.industry == "Промышленность" ? 'selected' }}>Промышленность</option>
+          <option value="Реклама, полиграфия" {{ __SELF__.course.industry == "Реклама, полиграфия" ? 'selected' }}>Реклама, полиграфия</option>
+          <option value="Рыбная отрасль" {{ __SELF__.course.industry == "Рыбная отрасль" ? 'selected' }}>Рыбная отрасль</option>
+          <option value="СМИ" {{ __SELF__.course.industry == "СМИ" ? 'selected' }}>СМИ</option>
+          <option value="Связь" {{ __SELF__.course.industry == "Связь" ? 'selected' }}>Связь</option>
+          <option value="Семья, дети" {{ __SELF__.course.industry == "Семья, дети" ? 'selected' }}>Семья, дети</option>
+          <option value="Строительство, ремонт" {{ __SELF__.course.industry == "Строительство, ремонт" ? 'selected' }}>Строительство, ремонт</option>
+          <option value="Торговля" {{ __SELF__.course.industry == "Торговля" ? 'selected' }}>Торговля</option>
+          <option value="Транспорт, перевозки" {{ __SELF__.course.industry == "Транспорт, перевозки" ? 'selected' }}>Транспорт, перевозки</option>
+          <option value="Туризм, спорт" {{ __SELF__.course.industry == "Туризм, спорт" ? 'selected' }}>Туризм, спорт</option>
+          <option value="Финансы" {{ __SELF__.course.industry == "Финансы" ? 'selected' }}>Финансы</option>
+          <option value="Экстренные службы" {{ __SELF__.course.industry == "Экстренные службы" ? 'selected' }}>Экстренные службы</option>
+        </select>
+        <span data-validate-for="industry"></span>
+      </div>
+      <div class="edit-page__item-row">
+        <p>Количество часов</p>
+        <input type="text" name="hours" value="{{ __SELF__.course.hours }}">
+        <span data-validate-for="hours"></span>
+      </div>
+      <div class="edit-page__item-row">
+        <p>Профессия</p>
+        <input type="text" name="profession" value="{{ __SELF__.course.profession }}">
+        <span data-validate-for="profession"></span>
+      </div>
+      <div class="edit-page__item-row">
+        <p>Уровень образования</p>
+        <input type="text" name="education" value="{{ __SELF__.course.education }}">
+        <span data-validate-for="education"></span>
+      </div>
+      <div class="edit-page__item-row">
+        <p>Сертификат</p>
+        <div class="edit-page__radio-list">
+          <div class="edit-page__radio-item">
+            <input type="radio" name="certificate" id="certificate-no" value="" checked>
+            <label for="certificate-no">Нет</label>
+          </div>
+          <div class="edit-page__radio-item">
+            <input type="radio" name="certificate" id="certificate-yes" value="">
+            <label for="certificate-yes">Да</label>
+          </div>
+        </div>
+      </div>
+      <div class="edit-page__item-row">
+        <p></p>
+        <input type="text" name="certificate" value="{{ __SELF__.course.certificate }}" placeholder="Ссылка на пример сертификата">
+        <span data-validate-for="certificate"></span>
+      </div>
+      <div class="edit-page__skills-row">
+        <p>Навыки</p>
+        <div class="edit-page__skill-add">
+          <input type="text" name="skills-list" value="" class="skill-input">
+          <span class="addSkill">&#43;</span>
+          <input type="text" name="skills" class="skills-list_hidden">
+        </div>
+        
+        <ul class="skills-list edit-page__skills-list">
+          {% for index,skill in __SELF__.course.skills %}
+            <li class="skills-list__item" data-id = "{{index}}">{{ skill }}<img class="delSkill" src="./../themes/archk/assets/icons/del-vacansy.svg"></li>
+          {% endfor %}
+        </ul>
+      </div>
+      <div class="edit-page__text-row">
+        <p>Описание</p>
+        <textarea type="text" name="description">{{ __SELF__.course.description }}</textarea>
+        <span data-validate-for="description"></span>
+      </div>
+    </form>
+  </div>
+</section>
+
+<script src="{{ 'assets/js/edit.js'|theme }}"></script>

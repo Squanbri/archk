@@ -1,0 +1,184 @@
+title = "Резюме"
+url = "/rezyume"
+layout = "default"
+description = "Страница \"Резюме\""
+meta_title = "Резюме"
+meta_description = "Найди лучшее предложение на нашем рынке"
+is_hidden = 0
+robot_index = "index"
+robot_follow = "follow"
+
+[Resume]
+
+[Favourites]
+==
+<?php
+function onStart()
+{
+  $this['functions'] = new class {
+    public function splitSkills($skills) {
+      return explode(',', $skills);
+    }
+    
+    public function getUserName($id) {
+      $phone = Db::select('select name from squanbri_authentication_users where id = ?', [$id])[0]->name;
+      return $phone;
+    }
+    
+    public function getUserEmail($id) {
+      $email = Db::select('select email from squanbri_authentication_users where id = ?', [$id])[0]->email;
+      return $email;
+    }
+    
+    public function getUserPhone($id) {
+      $address = Db::select('select phone from squanbri_authentication_users where id = ?', [$id])[0]->phone;
+      return $address;
+    }
+    
+    public function getUserCity($id) {
+      $city = Db::select('select city from squanbri_authentication_users where id = ?', [$id])[0]->city;
+      return $city;
+    }
+    
+    public function getDateCreated($date) {
+      $date = explode(" ", $date);
+      $date= explode("-", $date[0]);
+      
+      if (isset($date[1])) {
+        switch ($date[1]){
+          case 1: $m='января'; break;
+          case 2: $m='февраля'; break;
+          case 3: $m='марта'; break;
+          case 4: $m='апреля'; break;
+          case 5: $m='мая'; break;
+          case 6: $m='июня'; break;
+          case 7: $m='июля'; break;
+          case 8: $m='августа'; break;
+          case 9: $m='сентября'; break;
+          case 10: $m='октября'; break;
+          case 11: $m='ноября'; break;
+          case 12: $m='декабря'; break;
+        }
+        return $date[2].' '.$m; 
+      }
+    }
+  };
+}
+function onEnd() 
+{
+    $num2word = function ($num, $words){
+      $num = $num % 100;
+      if ($num > 19) {
+          $num = $num % 10;
+      }
+      switch ($num) {
+          case 1: {
+              return($words[0]);
+          }
+          case 2: case 3: case 4: {
+              return($words[1]);
+          }
+          default: {
+              return($words[2]);
+          }
+    }
+  };
+  
+  $num = $this->page->components['Resume']->countResume;
+  
+  $this->layout->components['SeoCmsPage']->seo_title = 'Найдено ' . $num . ' резюме';
+}
+?>
+==
+<link rel="stylesheet" href="{{ 'assets/css/any-list.css'|theme}}">
+
+{% set resume = Resume.resume %}
+<div class="dark"></div>
+  {% partial 'lists/offer' %}
+
+<section class="search">
+  <div class="search__wrapper wrapper-lists">
+    <h2 class="seatch__platform-header">Платформа для поиска работы</h2>
+    <form class="search__input-group" data-request="Resume::onSearch">
+      <input type="text" placeholder="Резюме" name="search" value="{{ Resume.search }}">
+      <button>Найти</button>
+    </form>
+    <p>Найдено {{Resume.countResume}} резюме</p>
+    <div class="filter-btn">
+      <img src="{{ 'assets/icons/filter-arrow.svg'|theme }}" alt="">Фильтры
+    </div>
+    {% partial 'lists/sort' %}
+    
+  </div>
+</section>
+
+<section class="list-filter">
+  <div class="wrapper-lists list-filter__wrapper">
+    
+    {% partial 'general/filter' %}
+    
+    <div class="list-block">
+      <ul class="list-block__list">
+      {% if resume %}
+        {% for resum in resume %}
+          <li class="list-block__item">
+            {% if Account.user %}
+              {% if Favourites.existInFavourites(resum.id, 'резюме') %}
+                <button class="list-block__like_mobile" data-request="Favourites::onRemoveFavourite" data-request-data="type: 'резюме', id: {{resum.id}}"><img src="{{ 'assets/icons/favorite.svg'|theme }}" alt=""></button>
+              {% else %}
+                <button class="list-block__like_mobile" data-request="Favourites::onAddFavourite" data-request-data="type: 'резюме', id: {{resum.id}}"><img src="{{ 'assets/icons/favorite.svg'|theme }}" alt=""></button>
+              {% endif %}
+            {% endif %}
+            <a href="{{ 'polzovatel'|page({id: resum.id}) }}" class="list-block__link">
+              <span class="list-block__city">Тверь</span>
+              <span class="list-block__profession">{{ resum.profession }}</span>
+              <span class="list-block__salary">{{ resum.salary }}</span>
+              <div class="list-block__experience">
+                <span>Опыт работы</span>
+                <p>{{ resum.experience }}</p>
+              </div>
+              <div class="list-block__skills">
+                <span>Основные навыки:</span>
+                <ul class="list-block__skills-list skills-list">
+                  {% for skill in functions.splitSkills(resum.skills) %}
+                    <li>{{ skill }}</li>
+                  {% endfor %}
+                </ul>
+              </div>
+            </a>
+            <div class="list-block__btns">
+              {% if Account.user %}
+                <a class="list-block__respond btn-unfilled" href="{{ '/soobshcheniya' }}">Откликнуться</a>
+              {% endif %}
+              <div class="list-block__contacts">
+                <button class="list-block__contacts-btn">Показать контакты</button>
+                <ul class="list-block__contacts-block">
+                  <li>{{functions.getUserName(resum.id)}}</li>
+                  <li><a href="mailto:{{functions.getUserEmail(resum.id)}}">{{functions.getUserEmail(resum.id)}}</a></li>
+                  <li><a href="tel{{functions.getUserPhone(resum.id)}}">{{functions.getUserPhone(resum.id)}}</a></li>
+                  <li>{{functions.getUserCity(resum.id)}}</li>
+                </ul>
+              </div>
+              {% if Account.user %}
+                {% if Favourites.existInFavourites(resum.id, 'резюме') %}
+                  <button class="list-block__like" data-request="Favourites::onRemoveFavourite" data-request-data="type: 'резюме', id: {{resum.id}}">Убрать из избранного</button>
+                {% else %}
+                 <button class="list-block__like" data-request="Favourites::onAddFavourite" data-request-data="type: 'резюме', id: {{resum.id}}">В избранное</button>
+                {% endif %}
+              {% endif %}
+              <span class="list-block__date">{{functions.getDateCreated(resum.updated_at)}}</span>
+            </div>
+          </li>
+        {% endfor %}
+      {% else %}
+        <span class="empty-list">Список пуст</span>
+      {% endif %}
+      </ul>
+      
+      {% partial 'Resume::pagination' items=Resume.resume %}
+    </div>
+  </div>
+</section>
+
+<script src="{{ 'assets/js/any-list.js'|theme }}"></script>
+<script src="{{ 'assets/js/range-slider.js'|theme }}"></script>

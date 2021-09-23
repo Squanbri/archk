@@ -1,0 +1,40 @@
+columns:
+    id:
+        label: id
+        type: number
+        searchable: true
+        sortable: true
+    profession:
+        label: Должность
+        type: text
+        searchable: true
+    companies_id:
+        label: Компания
+        type: number
+        searchable: true
+        sortable: true
+    city:
+        label: Город
+        type: text
+        searchable: true
+        sortable: true
+    industry:
+        label: Сфера
+        type: text
+        searchable: true
+        sortable: true
+    schedule:
+        label: 'График работы'
+        type: text
+        searchable: true
+        sortable: true
+    experience:
+        label: Опыт
+        type: text
+        searchable: true
+        sortable: true
+    updated_at:
+        label: Обновление
+        type: date
+        searchable: true
+        sortable: true

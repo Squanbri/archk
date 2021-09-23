@@ -1,0 +1,16 @@
+title = "Редактирование вакансии"
+url = "/redaktirovanie-vakansii/:id"
+layout = "default"
+is_hidden = 0
+
+[Vacancies]
+==
+<link rel="stylesheet" href="{{ 'assets/css/edit.css'|theme}}">
+
+{% component 'Vacancies' %}
+
+{{ Vacancies.getAcces }}
+
+{% partial 'Vacancies::edit_vacancy' %}
+
+<script src="{{ 'assets/js/edit.js'|theme }}"></script>

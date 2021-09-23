@@ -1,0 +1,51 @@
+<style>
+  .flash-message {
+    display: block;
+    width: 100%;
+    height: 40px;
+    font-size: 14px;
+    padding: 10px 30px 10px 15px;
+    background: #c30;
+    color: #fff !important;
+    z-index: 10300;
+    text-align: left;
+    border-radius: 4px;
+  }
+</style>
+
+<section class="enter-form">
+  <div class="wrapper enter-form__wrapper">
+    <form data-request="Account::onAuthentication " data-request-validate class="enter-form__form">
+      
+      <div class="enter-form__form_first">
+        <h1 class="enter-form__title">Авторизация</h1>
+        <ul class="enter-form__list">
+          <li class="enter-form__item">
+            <input type="text" name="email" id="email" placeholder="Email или телефон" value="{{ form_value('email') }}">
+            <span data-validate-for="email"></span>
+          </li>
+          <li class="enter-form__item">
+            <input type="password" name="password" id="password" placeholder="Пароль" value="{{ form_value('password') }}">
+            <span data-validate-for="password"></span>
+          </li>
+        </ul>
+
+        <div class="enter-form__valid">
+          {% flash %}
+            <span class="flash-message static error">{{ message }}</span>
+          {% endflash %}
+        </div>
+
+        <div class="enter-form__btns enter-form__auth">
+          <button type="submit" class="btn-filled">Продолжить</button>
+          <a href="./registraciya">Еще нет аккаунта?</a>
+        </div>
+      </div>
+    </form>
+  </div>
+  <div class="wrapper">
+    <p class="enter-form__conditions">
+      Нажимая «продолжить», вы подтверждаете, что ознакомлены, полностью согласны и принимаете условия <a href="#">«Соглашения об оказании услуг по содействию в трудоустройстве (оферта)»</a> 
+    </p>
+  </div>
+</section>

@@ -1,0 +1,10 @@
+name: Summary
+form: $/squanbri/authentication/models/summaries/fields.yaml
+modelClass: Squanbri\Authentication\Models\Summaries
+defaultRedirect: squanbri/authentication/summary
+create:
+    redirect: 'squanbri/authentication/summary/update/:id'
+    redirectClose: squanbri/authentication/summary
+update:
+    redirect: squanbri/authentication/summary
+    redirectClose: squanbri/authentication/summary

@@ -1,0 +1,21 @@
+columns:
+    id:
+        label: id
+        type: number
+        searchable: true
+        sortable: true
+    type:
+        label: type
+        type: text
+        searchable: true
+        sortable: true
+    target_id:
+        label: target_id
+        type: number
+        searchable: true
+        sortable: true
+    user_id:
+        label: user_id
+        type: number
+        searchable: true
+        sortable: true

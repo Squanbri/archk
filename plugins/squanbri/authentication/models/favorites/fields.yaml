@@ -1,0 +1,6 @@
+fields:
+    id:
+        label: id
+        span: auto
+        readOnly: 1
+        type: text

@@ -1,0 +1,29 @@
+fields:
+    name:
+        label: 'Название компании'
+        span: auto
+        type: text
+    links:
+        label: Text
+        span: auto
+        type: text
+    description:
+        label: 'О компании'
+        size: ''
+        span: auto
+        type: textarea
+    image:
+        label: Изображение
+        mode: image
+        imageWidth: '230'
+        imageHeight: '230'
+        useCaption: true
+        thumbOptions:
+            mode: crop
+            extension: auto
+        span: left
+        type: fileupload
+    activate:
+        label: IsActive
+        span: auto
+        type: number

@@ -1,0 +1,151 @@
+title = "Пользователь"
+url = "/polzovatel/:id"
+layout = "default"
+description = "Страница \"Профиль пользователя\""
+is_hidden = 0
+robot_index = "index"
+robot_follow = "follow"
+
+[Account]
+
+[Resume]
+
+[Users]
+==
+<?php
+function onStart() {
+  $data = $this->page->components['Account']->getBirthDate();
+  $born = new DateTime($data);
+  $age = $born->diff(new DateTime)->format('%y');
+  
+  $num2word = function ($num, $words){
+    $num = $num % 100;
+    if ($num > 19) {
+        $num = $num % 10;
+    }
+    switch ($num) {
+        case 1: {
+            return($words[0]);
+        }
+        case 2: case 3: case 4: {
+            return($words[1]);
+        }
+        default: {
+            return($words[2]);
+        }
+    }
+  };
+  
+  $this['age'] = $age;
+  $this['word'] = $num2word($age, array('год', 'года', 'лет'));
+  
+  $this['id'] = $this->param('id');
+}
+function onEnd() 
+{
+  $this->layout->components['SeoCmsPage']->seo_title = $this->page->components['Users']->user['name'];
+}
+?>
+==
+<link rel="stylesheet" href="{{ 'assets/css/any-profile.css'|theme}}">
+
+{% set person = Users.user %}
+{% set resume = Resume.resume %}
+
+<section class="profile">
+  <div class="profile__wrapper wrapper">
+    <div class="profile__info">
+      <div class="profile__description">
+        <div class="profile__favorite">
+          {% if Favourites.existInFavourites(resum.id) %}
+            <img src="{{'./assets/icons/favorite.svg'|theme}}" alt="fav" class="favImg">
+            <button class="list-block__like" data-request="Favourites::onRemoveFavourite" data-request-data="type: 'резюме', id: {{resum.id}}">Убрать из избранного</button>
+          {% else %}
+            <img src="{{'./assets/icons/favorite.svg'|theme}}" alt="fav" class="favImg">
+            <button class="list-block__like" data-request="Favourites::onAddFavourite" data-request-data="type: 'резюме', id: {{resum.id}}">Добавить в избранное</button>
+          {% endif %}
+        </div>
+        <h1 class="profile__name">{{ person.name }}</h1>
+        <span class="profile__is-online">Сейчас на сайте</span>
+          {% if person.sex == "Мужской" %}
+           <span class="profile__info">Мужчина, {{age}} {{word}}</span>
+          {% else %}
+            <span class="profile__info">Женщина, {{age}} {{word}}</span>
+          {% endif %}
+        <span class="profile__address">{{ person.city }}</span>
+        <span class="profile__citizenship">Гражданство: {{ person.citizenship }}</span>
+      </div>
+      <div class="profile__img">
+        <img src="{{ person.image.path ? person.image.path : 'assets/images/default-ava.png'|theme }}" alt="ava">
+      </div>
+    </div>
+    <div class="profile__btns">
+      {% if Account.user.id == id and Account.type == 'user' %}
+        <a href="{{ '/nastrojki' }}">Редактировать</a>
+      {% else %}
+        <a href="{{ '/soobshcheniya' }}">Связаться</a>
+        <button class="btn-unfilled show-contacts" data-name="{{ person.name }}" data-phone="{{person.phone}}" data-mail="{{person.email}}" data-city="{{person.city}}">Показать контакты</button>
+        <section class="modal-contacts" id="modal"></section>
+      {% endif %}
+    </div>
+    
+  {% if resume %}
+
+    <h2 class="profile-info__title">Резюме</h2>
+    <div class="profite-info__summary">
+      <span class="profite-info__sphere-activity">{{resume.industry}}</span>
+      <span class="profite-info__profession">{{resume.profession}}</span>
+      <span class="profite-info__salary">{{resume.salary}} Руб.</span>
+    </div>
+    <div class="profile-info__item">
+      <h3>Навыки</h3>
+      <ul class="profile-info__skills-list skills-list">
+        {% for skill in resume.skills %}
+        <li>{{skill}}</li>
+      {% endfor %}
+      </ul>
+    </div>
+    <div class="profile-info__item">
+      <div class="profile-info__experience">
+        <h3>Опыт работы:</h3>
+        <span>{{resume.experience}}</span>
+      </div>
+      <div class="profile-info__addition">
+        <span>Предыдущие места работы, должности, функции</span>
+        <p>
+          {{ resume.experience_places|raw }}
+        </p>
+      </div>
+    </div>
+    <div class="profile-info__item">
+      <div class="profile-info__experience">
+        <h3>Образование:</h3>
+        <span>{{resume.education}}</span>
+      </div>
+      <div class="profile-info__addition">
+        <span>Учебные заведения, год окончания, специальность</span>
+        <p>
+          {{ resume.education_places|raw }}
+        </p>
+      </div>
+    </div>
+    
+    <div class="profile-info__item">
+      <h3>Обо мне</h3>
+      <p>{{ resume.about|raw }}</p>
+    </div>
+    <div class="profile__btns">
+      {% if Account.user.id == id and Account.type == 'user' %}
+        <a href="{{ '/redaktirovanie-resume' }}">Редактировать</a>
+      {% endif %}
+    </div>
+    <div class="profile-info__item">
+      <p class="profile-info__activity">Обновлено 28 августа 2021 в 22:28</p>
+    </div>
+  </div>
+</section>
+
+{% endif %}
+
+<script src="{{ 'assets/js/modal.js'|theme }}"></script>
+<script src="{{ 'assets/js/profile.js'|theme }}"></script>

@@ -1,0 +1,103 @@
+==
+<?php
+function onStart() {
+  
+  $this['city']       = Request::input('city');
+  $this['sex']        = Request::input('sex');
+  $this['salary']     = Request::input('salary');
+  $this['industry']   = Request::input('industry');
+  
+  $schedules = ['schedule_full', 'schedule_part', 'schedule_watchkeeper'];
+  foreach ($schedules as $schedule) {
+    if (Input::get($schedule)) {
+      $schedulesActive[$schedule] = Input::get($schedule);
+    }
+  }
+  $this['schedules'] = $schedulesActive ?? [];
+  
+  $experiences = ['experience_without', 'experience_1-3', 'experience_3-6', 'experience_6'];
+  foreach ($experiences as  $experience) {
+    if (Input::get($experience)) {
+      $experiencesActive[$experience] = Input::get($experience);
+    }
+  }
+  $this['experiences'] = $experiencesActive ?? [];
+}
+?>
+==
+<form action="" class="filter-block">
+  <img src="{{ 'assets/icons/modal-close.svg'|theme }}" class="filter-block__close" alt="">
+  <div class="filter-block__item">
+    <span>Город</span>
+    <select name="city" id="" class="select__item">
+      <option value="Все города" {{ city == "Все города" ? 'selected' }}>Все города</option>
+      {% partial 'filter/city' city=city %}
+    </select>
+  </div>
+  {% if this.page.url == '/rezyume' %}
+  <div class="filter-block__item">
+    <span>Пол</span>
+    <div class="radio__list">
+      <div class="radio__item">
+        <input type="radio" name="sex" id="filter-sex-dont-matter" value="Не имеет значения" 
+          {{ sex != 'male' and sex != 'female' ? 'checked' }}
+        >
+        <label for="filter-sex-dont-matter">Не имеет значения</label>
+      </div>
+      <div class="radio__item">
+        <input type="radio" name="sex" id="filter-sex-male" value="male"
+          {{ sex == 'male' ? 'checked' }}
+        >
+        <label for="filter-sex-male">Мужской</label>
+      </div>
+      <div class="radio__item">
+        <input type="radio" name="sex" id="filter-sex-female" value="female"
+          {{ sex == 'female' ? 'checked' }}
+        >
+        <label for="filter-sex-female">Женский</label>
+      </div>
+    </div>
+  </div>
+  {% endif %}
+  <div class="filter-block__item">
+    <span>Уровень дохода</span>
+    <div class="radio__list">
+      <div class="radio__item">
+        <input type="radio" name="salary" id="filter-salary-doesnt-matter" value="Не имеет значения" 
+          {{ salary != 'Свой диапазон' ? 'checked' }}
+        >
+        <label for="filter-salary-doesnt-matter">Не имеет значения</label>
+      </div>
+      <div class="radio__item">
+        <input type="radio" name="salary" id="filter-salary-own" value="Свой диапазон"
+          {{ salary == 'Свой диапазон' ? 'checked' }}
+        >
+        <label for="filter-salary-own">Свой диапазон</label>
+      </div>
+      
+      {% partial 'general/range-slider.htm' %}
+      
+    </div>
+  </div>
+  <div class="filter-block__item">
+    <span>Направление</span>
+      <select class="select__item" name="industry" id="industry">
+        <option value="Все направления"{{ industry == "Все направления" ? 'selected' }}>Все направления</option>
+        {% partial 'filter/industry' industry=industry %}
+      </select>
+  </div>
+  <div class="filter-block__item">
+    <span>График работы</span>
+    <div class="checkbox__list">
+      {% partial 'filter/schedule' schedules=schedules %}
+    </div>
+  </div>
+  <div class="filter-block__item">
+    <span>Опыт работы</span>
+    <div class="checkbox__list">
+      {% partial 'filter/experience' experiences=experiences %}
+    </div>
+  </div>
+  <button class="btn-unfilled filter-block__apply">Применить</button>
+  <a href="{{ this.page.url }}" class="filter-block__reset-all">Сбросить все</a>
+</form>

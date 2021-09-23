@@ -1,0 +1,23 @@
+title = "Регистрация"
+url = "/registraciya"
+layout = "default"
+is_hidden = 0
+==
+<?php
+function onRegister() {
+  $user = Auth::register([
+    'name' => input('name'),
+    'email' => input('email'),
+    'username' => input('username'),
+    'password' => input('password'),
+    'password_confirmation' => input('password_confirmation'),
+  ]);
+}
+?>
+==
+<link rel="stylesheet" href="{{ 'assets/css/reg-auth.css'|theme }}">
+<link rel="stylesheet" href="{{ 'assets/css/edit.css'|theme }}">
+
+{% partial 'Account::registration' %}
+
+<script src="{{ 'assets/js/reg.js'|theme }}"></script>

@@ -1,0 +1,15 @@
+==
+<?php
+function onStart() {
+  $this['min_salary'] = Request::input('min_salary');
+  $this['max_salary'] = Request::input('max_salary'); 
+}
+?>
+==
+<div class="range__item">
+  <input type="text" class="js-input-from" value="{{min_salary}}" placeholder="от" name="min_salary" />
+  <input type="text" class="js-input-to" value="{{max_salary }}" placeholder="до" name="max_salary" />
+</div>
+<div class="range-slider">
+  <input type="text" class="js-range-slider" value="" />
+</div>

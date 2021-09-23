@@ -1,0 +1,50 @@
+description = "Основной шаблон АРЧК"
+
+[Account]
+
+[SeoCmsPage]
+==
+{% component 'Account' %}
+<!DOCTYPE HTML>
+<html>
+    <head>
+        {% component 'SeoCmsPage' %}
+      
+        <meta charset="utf-8">
+        <meta name="author" content="OctoberCMS">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <meta name="generator" content="OctoberCMS">
+      
+        <link rel="icon" type="image/svg" href="{{ 'assets/icons/logo.svg'|theme }}">
+        <link href="{{ 'assets/css/general.css'|theme }}" rel="stylesheet">
+        <link href="{{ 'assets/css/ion.rangeSlider.css'|theme }}" rel="stylesheet">
+        
+        <script src="{{ 'assets/js/libs/jquery.min.js'|theme }}"></script>
+        <script src="{{ 'assets/js/libs/ion.rangeSlider.min.js'|theme }}"></script>
+        <script src="{{ 'assets/js/libs/anime.min.js'|theme }}"></script>
+        <script src="https://cdn.tiny.cloud/1/u662muyrail97b4ud6tq6w5r4eqfl6rqrqxt91v5er9a3z2y/tinymce/5/tinymce.min.js" referrerpolicy="origin"></script>
+        {% styles %}
+    </head>
+    <body>
+
+        <!-- Header -->
+        {% partial 'site/header' %}
+
+        <!-- Content -->
+        <main id="layout-content">
+            {% page %}
+        </main>
+
+        <!-- Footer -->
+        <footer id="layout-footer">
+            {% partial 'site/footer' %}
+        </footer>
+
+        <!-- Scripts -->
+        <script src="{{ 'assets/js/general.js'|theme }}"></script>
+        <script src="{{ 'assets/js/chat.js'|theme }}"></script>
+        {% framework extras %}
+        {% scripts %}
+
+    </body>
+</html>

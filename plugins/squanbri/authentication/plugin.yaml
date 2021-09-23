@@ -1,0 +1,36 @@
+plugin:
+    name: 'squanbri.authentication::lang.plugin.name'
+    description: 'squanbri.authentication::lang.plugin.description'
+    author: Squanbri
+    icon: oc-icon-users
+    homepage: ''
+navigation:
+    main-menu-item:
+        label: Пользователи
+        url: squanbri/authentication/users
+        icon: icon-users
+        sideMenu:
+            side-menu-item:
+                label: Пользователи
+                url: squanbri/authentication/users
+                icon: icon-user
+            side-menu-item2:
+                label: Компании
+                url: squanbri/authentication/company
+                icon: icon-building-o
+            side-menu-item3:
+                label: Резюме
+                url: squanbri/authentication/summary
+                icon: icon-file
+            side-menu-item4:
+                label: Вакансии
+                url: squanbri/authentication/vacancies
+                icon: icon-file-o
+            side-menu-item5:
+                label: Избранное
+                url: squanbri/authentication/favourites
+                icon: icon-heart
+            side-menu-item6:
+                label: Курсы
+                url: squanbri/authentication/courses
+                icon: icon-mortar-board

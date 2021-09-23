@@ -1,0 +1,135 @@
+title = "Настройки"
+url = "/nastrojki"
+layout = "default"
+description = "Страница \"Настройки\""
+meta_title = "Настройки аккаунта"
+is_hidden = 0
+
+[Companies]
+
+[Users]
+==
+<style>
+
+  
+</style>
+
+<link rel="stylesheet" href="{{ 'assets/css/edit.css'|theme}}">
+
+<section class="edit-page">
+  <h1>Редактирование</h1>
+  <div class="edit-page__wrapper">
+    {% if Account.type == 'user' %}
+      <form 
+        class="edit-page__form" 
+        enctype="multipart/form-data" 
+        data-request-files
+        data-request="Account::onEditProfile" 
+        data-request-validate 
+        data-request-redirect="/polzovatel/{{ Account.user.id }}"
+      >
+    {% else %}
+      <form 
+        class="edit-page__form" 
+        enctype="multipart/form-data" 
+        data-request-files
+        data-request="Account::onEditCompany" 
+        data-request-validate 
+        data-request-redirect="/kompaniya/{{ Account.user.id }}"
+      >
+    {% endif %}
+      <h2>Фотография к резюме</h2>
+      <div class="edit-page__img-row">
+        <img src="{{ user.image.path }}" alt="profile-img" id="photo">
+        <input type="file" id="profile-img-load" name="image" accept="image/*" >
+        <label for="profile-img-load" class="btn-unfilled">Выбрать</label>
+        <p>Фотография формата JPG, JPEG или PNG не более 2 мб</p>
+        <span class="err-message"></span>
+        <span data-validate-for="profile-img-load"></span>
+      </div>
+      <h2>Личная информация</h2>
+      <div class="edit-page__item-row">
+        <p>{{ Account.user.type == 'user' ? 'ФИО' : 'Название' }}</p>
+        <input type="text" name="name" value="{{ Account.user.name }}">
+        <span data-validate-for="name"></span>
+      </div>      
+      {% if Account.type == 'user' %}
+        <div class="edit-page__item-row">
+          <p>Пол</p>
+          <select name="sex">
+            <option value="Мужской" {{ Account.user.sex == "Мужской" ? 'selected' }}>Мужской</option>
+            <option value="Женский" {{ Account.user.sex == "Женский" ? 'selected' }}>Женский</option>
+          </select>
+          <span data-validate-for="sex"></span>
+        </div>
+        <div class="edit-page__item-row">
+          <p>Дата рождения</p>
+          <input type="date" name="birth_date" value="{{ Account.user.birth_date }}">
+          <span data-validate-for="date"></span>
+        </div>
+        
+        <div class="edit-page__item-row">
+          <p>Город</p>
+          <select name="city">
+            <option value="Южно-Сахалинск" {{ Account.user.city == "Южно-Сахалинск" ? 'selected' }}>Южно-Сахалинск</option>
+            <option value="Корсаков" {{ Account.user.city == "Корсаков" ? 'selected' }}>Корсаков</option>
+            <option value="Холмск" {{ Account.user.city == "Холмск" ? 'selected' }}>Холмск</option>
+            <option value="Оха" {{ Account.user.city == "Оха" ? 'selected' }}>Оха</option>
+            <option value="Поронайск" {{ Account.user.city == "Поронайск" ? 'selected' }}>Поронайск</option>
+            <option value="Долинск" {{ Account.user.city == "Долинск" ? 'selected' }}>Долинск</option>
+            <option value="Ноглики" {{ Account.user.city == "Ноглики" ? 'selected' }}>Ноглики</option>
+            <option value="Александровск-Сахалинский" {{ Account.user.city == "Александровск-Сахалинский" ? 'selected' }}>Александровск-Сахалинский</option>
+            <option value="Невельск" {{ Account.user.city == "Невельск" ? 'selected' }}>Невельск</option>
+            <option value="Углегорск" {{ Account.user.city == "Углегорск" ? 'selected' }}>Углегорск</option>
+            <option value="Анива" {{ Account.user.city == "Анива" ? 'selected' }}>Анива</option>
+            <option value="Тымовское" {{ Account.user.city == "Тымовское" ? 'selected' }}>Тымовское</option>
+            <option value="Смирных" {{ Account.user.city == "Смирных" ? 'selected' }}>Смирных</option>
+            <option value="Южно-Курильск" {{ Account.user.city == "Южно-Курильск" ? 'selected' }}>Южно-Курильск</option>
+            <option value="Шахтерск" {{ Account.user.city == "Шахтерск" ? 'selected' }}>Шахтерск</option>
+            <option value="Макаров" {{ Account.user.city == "Макаров" ? 'selected' }}>Макаров</option>
+            <option value="Томари" {{ Account.user.city == "Томари" ? 'selected' }}>Томари</option>
+            <option value="Северо-Курильск" {{ Account.user.city == "Северо-Курильск" ? 'selected' }}>Северо-Курильск</option>
+            <option value="Курильск" {{ Account.user.city == "Курильск" ? 'selected' }}>Курильск</option>
+          </select>
+        </div>
+      {% else %}
+        <div class="edit-page__item-row">
+          <p>Направление</p>
+          <select name="industry" id="" class="select__item">
+            {% partial 'filter/industry' industry=Account.user.industry %}
+          </select>
+        </div>
+      
+        <div class="edit-page__item-row">
+          <p>Адрес</p>
+          <input type="text" name="address" value="{{ Account.user.address }}">
+          <span data-validate-for="address"></span>
+        </div>
+        <div class="edit-page__text-row description-row">
+          <p>О компании</p>
+          <textarea name="description" id="description" cols="30" rows="5">{{ Account.user.description }}</textarea>
+          <span data-validate-for="description"></span>
+        </div>
+      {% endif %}
+      <div class="edit-page__item-row">
+        <p>Телефон</p>
+        <input type="text" name="phone" value="{{ Account.user.phone }}">
+        <span data-validate-for="phone"></span>
+      </div>
+      <!-- <div class="edit-page__item-row">
+        <p>Email</p>
+        <input type="text" name="email" value="{{ Account.user.email }}">
+        <span data-validate-for="email"></span>
+      </div> -->
+      <span class="edit-page__delete">Удалить аккаунт</span>
+      <div class="edit-page__btns">
+        <button type="submit" class="btn-filled">Сохранить</button>
+        {% if Account.user.type == 'user' %}
+          <a href="/polzovatel/{{ Account.user.id }}" class="btn-unfilled">Отмена</a>
+        {% else %}
+          <a href="javascript:history.back();" class="btn-unfilled">Отмена</a>
+        {% endif %}
+      </div>
+    </form>
+  </div>
+</section>

@@ -1,0 +1,10 @@
+name: Courses
+form: $/squanbri/authentication/models/courses/fields.yaml
+modelClass: Squanbri\Authentication\Models\Courses
+defaultRedirect: squanbri/authentication/courses
+create:
+    redirect: 'squanbri/authentication/courses/update/:id'
+    redirectClose: squanbri/authentication/courses
+update:
+    redirect: squanbri/authentication/courses
+    redirectClose: squanbri/authentication/courses

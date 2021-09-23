@@ -1,0 +1,14 @@
+title = "Редактирование резюме"
+url = "/redaktirovanie-resume"
+layout = "default"
+description = "Страница \"Редактирование профиля\""
+meta_title = "Редактирование профиля"
+is_hidden = 0
+
+[Resume]
+==
+<link rel="stylesheet" href="{{ 'assets/css/edit.css'|theme}}">
+
+{% partial 'Resume::edit_resume' %}
+
+<script src="{{ 'assets/js/edit.js'|theme }}"></script>
